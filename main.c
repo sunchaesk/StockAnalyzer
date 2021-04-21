@@ -3,21 +3,25 @@
 
 #include "readf.c"
 
+void help(){
+    printf("help");
+    /* print_help(); */
+}
 
-int main() {
-    char* buf;
-    buf = read_file("data/aapl.txt");
+void test_algo(){
+    printf("test_algo\n");
+    /* propagate_data(); */
+    /* algo_main_loop(); */
+}
 
-    char** tokens;
-    tokens = str_split(buf, '\n');
-    if (tokens){
-        int i = 0;
-        for (i = 0; *(tokens+i); i++){
-            printf("%s\n", *(tokens+i));
-            free(*(tokens+i));
+int main(int argc, char* argv[]) {
+    if (argc == 2){
+        if (strcmp(argv[1], "help") == 0){
+            help();
+        } else if (strcmp(argv[1], "test-algo") == 0){
+            test_algo();
         }
-        printf("\n");
-        free(tokens);
+    } else {
+        printf("No args: print help\n");
     }
-    return 0;
 }

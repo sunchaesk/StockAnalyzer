@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 
 typedef struct portfolio {
@@ -29,13 +30,44 @@ struct portfolio init_portfolio(double stock, char* date, long double portfolio)
     return p;
 }
 
-struct portfolio buy_as_much(struct portfolio* p, double stock_p){
-
-    return *p;
+long double get_total_portfolio(struct portfolio* p){
+    long double temp;
+    temp = p->current_portfolio + p->stock_cnt * p->curr_stock;
+    return temp;
 }
 
-struct portfolio update_portfolio(struct portfolio* p, double stock_p){
 
+struct portfolio update_portfolio_stock_p(struct portfolio* p, double stock_p){
+    p->curr_stock = stock_p;
+    return *p;
+}
+struct portfolio update_portfolio_sell(struct portfolio *p){
+    long double curr_stock_p = p->curr_stock;
+    p->current_portfolio = p->current_portfolio + curr_stock_p;
+    p->stock_cnt = 0;
+    return *p;
+}
+struct portfolio update_stock_p_and_sell(struct portfolio* p, double stock_p){
+    update_portfolio_stock_p(p, stock_p);
+    update_portfolio_sell(p);
+    return *p;
+}
+struct portfolio buy_as_much(struct portfolio* p){
+    if (p->current_portfolio < p->curr_stock){
+        printf("NOT ENOUGH CASH\n");
+        return *p;
+    }
+    long double curr_cash = p->current_portfolio;
+    long double bought_stock_cnt = floor(curr_cash / p->curr_stock);
+    long double remaining_cash =  p->curr_stock * ((curr_cash / p->curr_stock) - floor(curr_cash / p->curr_stock));
+
+    p->current_portfolio = p->current_portfolio - remaining_cash;
+    p->stock_cnt = p->stock_cnt + bought_stock_cnt;
+    return *p;
+}
+struct portfolio update_stock_p_and_buy(struct portfolio *p, double stock_p){
+    update_portfolio_stock_p(p, stock_p);
+    buy_as_much(p);
     return *p;
 }
 

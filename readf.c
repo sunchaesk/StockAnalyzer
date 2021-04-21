@@ -7,14 +7,6 @@
 
 #define LENGTH 270
 
-typedef struct stock_data {
-    char datetime[40];
-    double open;
-    double high;
-    double low;
-    double close;
-    long unsigned int volume;
-} stock_data;
 
 int num_lines(char fname[40]){
     int num_lines = 0;
@@ -97,3 +89,38 @@ char** str_split(char* a_str, const char a_delim)
     }
     return result;
 }
+
+typedef struct data_file {
+    char* datetime;
+    long double open;
+    long double high;
+    long double low;
+    long double close;
+    long int volume;
+} data_file;
+
+typedef struct curr_data {
+    struct data_file curr_data_arr[20];
+    long double min;
+    long double max;
+} curr_data;
+
+struct curr_data propagate_data(){
+    /* struct curr_data ret; */
+    /* return ret; */
+}
+    /* char* buf; */
+    /* buf = read_file("data/aapl.txt"); */
+
+    /* char** tokens; */
+    /* tokens = str_split(buf, '\n'); */
+    /* if (tokens){ */
+    /*     int i = 0; */
+    /*     for (i = 0; *(tokens+i); i++){ */
+    /*         printf("%s\n", *(tokens+i)); */
+    /*         free(*(tokens+i)); */
+    /*     } */
+    /*     printf("\n"); */
+    /*     free(tokens); */
+    /* } */
+    /* return 0; */

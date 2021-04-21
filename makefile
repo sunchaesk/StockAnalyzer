@@ -1,5 +1,12 @@
-c:main.c
-	gcc -Wall -g main.c -o c
+
+exe = c
+CFLAGS = -Wall -g
+
+$(exe):main.c
+	gcc ${CFLAGS} main.c -o ${exe}
 
 clean:
-	rm c
+	rm ${exe}
+
+debug:
+	gdb ./${exe}
