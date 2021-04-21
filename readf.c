@@ -105,10 +105,10 @@ typedef struct curr_data {
     long double max;
 } curr_data;
 
-struct curr_data propagate_data(){
-    /* struct curr_data ret; */
-    /* return ret; */
-}
+/* struct curr_data propagate_data(){ */
+/*     /\* struct curr_data ret; *\/ */
+/*     /\* return ret; *\/ */
+/* } */
     /* char* buf; */
     /* buf = read_file("data/aapl.txt"); */
 
