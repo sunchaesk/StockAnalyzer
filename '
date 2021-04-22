@@ -8,32 +8,6 @@
 #define LENGTH 270
 
 
-struct data_file {
-    char* datetime;
-    long double open;
-    long double high;
-    long double low;
-    long double close;
-    long int volume;
-};
-typedef struct data_file data_file;
-
-struct curr_data {
-    struct data_file curr_data_arr[20];
-    long double min;
-    long double max;
-};
-typedef struct curr_data curr_data;
-
-struct dfile{
-    char file[5000][200];
-};
-typedef struct dfile dfile;
-void print_dfile(struct dfile* d){
-    printf("%s", d->file[0]);
-}
-
-
 int num_lines(char fname[40]){
     int num_lines = 0;
     char c;
@@ -116,34 +90,36 @@ char** str_split(char* a_str, const char a_delim)
     return result;
 }
 
-void copy_ch_dfile(char arr[][200], struct dfile* f){
-    int i = 0;
-    while(arr[i] != NULL){
-        strcpy(f->file[i], arr[i]);
-        ++i;
-    }
+typedef struct data_file {
+    char* datetime;
+    long double open;
+    long double high;
+    long double low;
+    long double close;
+    long int volume;
+} data_file;
+
+typedef struct curr_data {
+    struct data_file curr_data_arr[20];
+    long double min;
+    long double max;
+} curr_data;
+
+typedef struct dfile {
+    char file[5000][200];
+} dfile;
+
+void copy_ch_dfile(char arr[][200], struct dfile* file){
 }
 
 dfile save_char_buffer(char** buffer){
     struct dfile ret;
-    char temp_file[5000][200];
+    char file[5000][200];
     int i = 0;
     while (*buffer != NULL){
-        strncpy(temp_file[i], *buffer, sizeof(char[200]));
-        char* temp = temp_file[i];
-        ++i;
+        strncpy(file[i], *buffer, sizeof(char[200]));
     }
-    copy_ch_dfile(temp_file, &ret);
-    return ret;
-}
-
-dfile readf_main(char* fname){
-    char *buf;
-    char**  temp;
-    buf = read_file(fname);
-    temp = str_split(buf, '\n');
-    struct dfile d = save_char_buffer(temp);
-    return d;
+    //return ret;
 }
 
 /* struct curr_data propagate_data(){ */
@@ -165,5 +141,3 @@ dfile readf_main(char* fname){
 /*     free(tokens); */
 /* } */
 /* return 0; */
-
-

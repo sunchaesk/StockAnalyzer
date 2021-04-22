@@ -78,7 +78,7 @@ void debug_print(struct portfolio* p){
 }
 
 // finish writing later
-void print_summary_print_all(struct portfolio* p, char* date){
+void print_summary_sell(struct portfolio* p, char* date){
     printf("\n===============PORTFOLIO SUMMARY SELL ALL==============\n");
     printf("DATE-RANGE: %s -> %s\n", p->start_date, date);
     // print start data

@@ -1,8 +1,8 @@
 
 exe = c
-CFLAGS = -Wall -g
+CFLAGS =  -g
 CLIBS = -lm
-CSRC = main.c portfolio.c readf.c
+CSRC = main.c
 
 $(exe):main.c
 	gcc ${CFLAGS} ${CSRC} ${CLIBS} -o ${exe}

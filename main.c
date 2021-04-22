@@ -3,6 +3,7 @@
 
 #include "readf.c"
 #include "portfolio.c"
+#include "algo.c"
 
 
 /*     if (argc == 2){ */
@@ -27,20 +28,25 @@
 /* } */
 
 int main() {
-    struct portfolio p = {};
-    init_portfolio(&p, 10.00, "2021-04-16", 20);
+   struct dfile temp = readf_main("data/aapl.txt");
+//    printf("%s", temp.file[0]);
+//    print_dfile(&temp);
+}
 
-    buy_as_much(&p);
-    printf("|%Lg|", p.current_portfolio);
-    debug_print(&p);
-    update_portfolio_stock_p(&p, 12);
-    update_portfolio_sell(&p);
 
-    update_portfolio_stock_p(&p, 9);
-    buy_as_much(&p);
-
-    update_portfolio_sell(&p);
+    /* struct portfolio p = {}; */
+    /* init_portfolio(&p, 10.00, "2021-04-16", 20); */
 
     /* buy_as_much(&p); */
-    print_summary(&p, "2021-04-19");
-}
+    /* printf("|%Lg|", p.current_portfolio); */
+    /* debug_print(&p); */
+    /* update_portfolio_stock_p(&p, 12); */
+    /* update_portfolio_sell(&p); */
+
+    /* update_portfolio_stock_p(&p, 9); */
+    /* buy_as_much(&p); */
+
+    /* update_portfolio_sell(&p); */
+
+    /* /\* buy_as_much(&p); *\/ */
+    /* print_summary(&p, "2021-04-19"); */
