@@ -2,7 +2,7 @@
 exe = c
 CFLAGS = -Wall -g
 CLIBS = -lm
-CSRC = main.c
+CSRC = main.c portfolio.c readf.c
 
 $(exe):main.c
 	gcc ${CFLAGS} ${CSRC} ${CLIBS} -o ${exe}

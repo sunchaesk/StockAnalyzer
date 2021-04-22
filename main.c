@@ -27,9 +27,20 @@
 /* } */
 
 int main() {
-    struct portfolio p = init_portfolio(
-    10.00, "2021-04-16", 10000);
-    p = update_stock_p_and_buy(&p, 12);
-    p = update_portfolio_sell(&p);
+    struct portfolio p = {};
+    init_portfolio(&p, 10.00, "2021-04-16", 20);
+
+    buy_as_much(&p);
+    printf("|%Lg|", p.current_portfolio);
+    debug_print(&p);
+    update_portfolio_stock_p(&p, 12);
+    update_portfolio_sell(&p);
+
+    update_portfolio_stock_p(&p, 9);
+    buy_as_much(&p);
+
+    update_portfolio_sell(&p);
+
+    /* buy_as_much(&p); */
     print_summary(&p, "2021-04-19");
 }
