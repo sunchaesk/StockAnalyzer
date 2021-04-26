@@ -18,15 +18,26 @@ struct data_file {
 };
 typedef struct data_file data_file;
 
-struct curr_data {
-    struct data_file curr_data_arr[20];
-    long double min;
-    long double max;
+// For use in Donchian algorithm
+/* struct curr_data { */
+/*     struct data_file curr_data_arr[20]; */
+/*     long double min; */
+/*     long double max; */
+/* }; */
+/* typedef struct curr_data curr_data; */
+
+struct data_file_array {
+    struct data_file fdata[5000];
 };
-typedef struct curr_data curr_data;
+typedef struct data_file_array data_file_array;
+
+struct TEMP_dfile{
+    char file[5000][200];
+};
+typedef struct TEMP_dfile TEMP_dfile;
 
 struct dfile{
-    char file[5000][200];
+    char** file;
 };
 typedef struct dfile dfile;
 void print_dfile(struct dfile* d){
@@ -116,54 +127,128 @@ char** str_split(char* a_str, const char a_delim)
     return result;
 }
 
-void copy_ch_dfile(char arr[][200], struct dfile* f){
+void TEMP_copy_ch_dfile(char arr[][200], struct TEMP_dfile* f){
     int i = 0;
-    while(arr[i] != NULL){
+    while(arr[i+1] != NULL){
+        if (i > 5000) break;
         strcpy(f->file[i], arr[i]);
         ++i;
     }
 }
 
-dfile save_char_buffer(char** buffer){
-    struct dfile ret;
+TEMP_dfile TEMP_save_char_buffer(char** buffer){
+    struct TEMP_dfile ret;
     char temp_file[5000][200];
     int i = 0;
-    while (*buffer != NULL){
-        strncpy(temp_file[i], *buffer, sizeof(char[200]));
-        char* temp = temp_file[i];
+    while (*buffer++ != NULL){
+        if (i > 5000) break;
+        strcpy(temp_file[i], *buffer);
         ++i;
+        ++buffer;
     }
-    copy_ch_dfile(temp_file, &ret);
+    TEMP_copy_ch_dfile(temp_file, &ret);
     return ret;
 }
 
-dfile readf_main(char* fname){
+TEMP_dfile TEMP_readf_main(char* fname){
     char *buf;
     char**  temp;
     buf = read_file(fname);
     temp = str_split(buf, '\n');
-    struct dfile d = save_char_buffer(temp);
+    struct TEMP_dfile d = TEMP_save_char_buffer(temp);
     return d;
 }
 
-/* struct curr_data propagate_data(){ */
-/*     /\* struct curr_data ret; *\/ */
-/*     /\* return ret; *\/ */
-/* } */
-/* char* buf; */
-/* buf = read_file("data/aapl.txt"); */
+dfile save_char_buffer(char** buffer){
+    struct dfile ret;
+    ret.file = buffer;
+    return ret;
+}
 
-/* char** tokens; */
-/* tokens = str_split(buf, '\n'); */
-/* if (tokens){ */
-/*     int i = 0; */
-/*     for (i = 0; *(tokens+i); i++){ */
-/*         printf("%s\n", *(tokens+i)); */
-/*         free(*(tokens+i)); */
-/*     } */
-/*     printf("\n"); */
-/*     free(tokens); */
-/* } */
-/* return 0; */
+static char** _strsplit( const char* s, const char* delim, size_t* nb ) {
+    void* data;
+    char* _s = ( char* )s;
+    const char** ptrs;
+    size_t
+        ptrsSize,
+        nbWords = 1,
+        sLen = strlen( s ),
+        delimLen = strlen( delim );
 
+    while ( ( _s = strstr( _s, delim ) ) ) {
+        _s += delimLen;
+        ++nbWords;
+    }
+    ptrsSize = ( nbWords + 1 ) * sizeof( char* );
+    ptrs =
+        data = malloc( ptrsSize + sLen + 1 );
+    if ( data ) {
+        *ptrs =
+            _s = strcpy( ( ( char* )data ) + ptrsSize, s );
+        if ( nbWords > 1 ) {
+            while ( ( _s = strstr( _s, delim ) ) ) {
+                *_s = '\0';
+                _s += delimLen;
+                *++ptrs = _s;
+            }
+        }
+        *++ptrs = NULL;
+    }
+    if ( nb ) {
+        *nb = data ? nbWords : 0;
+    }
+    return data;
+}
+char** strsplit( const char* s, char delim ) {
+    return _strsplit( s, &delim, NULL );
+}
 
+struct dfile to_dfile(char* fname){
+    char* buf;
+    char** temp;
+    buf = read_file(fname);
+    temp = str_split(buf, '\n');
+    free(buf);
+    struct dfile d;
+    d.file = temp;
+    free(temp);
+    return d;
+}
+
+struct data_file str_to_data(char** s){
+    struct data_file ret;
+    char* end;
+    ret.datetime = s[0];
+    ret.open = strtold(s[1], &end);
+    ret.high = strtold(s[2], &end);
+    ret.low = strtold(s[3], &end);
+    ret.close = strtold(s[4], &end);
+    ret.volume = strtol(s[5], &end, 10);
+    return ret;
+}
+
+void clear_data_file(struct data_file* d){
+    d->datetime = "";
+    d->open = 0;
+    d->high = 0;
+    d->low = 0;
+    d->close = 0;
+    d->volume = 0;
+}
+
+struct data_file_array create_data(struct dfile* d){
+    struct data_file_array ret;
+    struct data_file t;
+    int i = 0;
+    char** temp;
+    while(*d->file != NULL){
+        temp = strsplit(*d->file, ';');
+        t = str_to_data(temp);
+        ret.fdata[i] = t;
+        clear_data_file(&t);
+
+        i++;
+        d->file++;
+    }
+    return ret;
+}

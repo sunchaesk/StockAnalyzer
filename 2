@@ -28,43 +28,30 @@
 /* } */
 
 int main() {
-    /* char* s = "datetime;open;high;low;close;volume"; */
-    /* char** buff = strsplit(s, ';'); */
-    /* printf("%s\n", buff[0]); */
-    /* printf("%s\n", buff[1]); */
-    /* printf("%s\n", buff[2]); */
-    /* printf("%s\n", buff[3]); */
-    /* printf("%s\n", buff[4]); */
-    /* printf("%s\n", buff[5]); */
-    char* s = "12.22333";
-    char* end;
-    long double d = strtold(s, &end);
-
-    char* ss = "23123213.2131";
-    long double dd = strtold(ss, &end);
-    printf("%Lg\n", d);
-    printf("%Lg\n", dd);
-    /* char* s = "Hello;OOoga;Anggi;"; */
-    /* char** buff = strsplit(s, ';'); */
-    /* while (*buff != NULL){ */
+    /* struct dfile temp = readf_main("data/aapl.txt"); */
+    /* printf("%s\n", temp.file[1]); */
+    char** buff;
+    char* str = "";
+    strcpy(str, "datetime;open;high;low;close;volume");
+    // buff = str
+    /* while(*buff != NULL){ */
     /*     printf("%s", *buff); */
     /*     buff++; */
     /* } */
 }
-
-/* char** buf; */
-/* buf = malloc(4 * sizeof(char*)); */
-/* buf[0] = malloc(100); */
-/* buf[1] = malloc(100); */
-/* buf[2] = malloc(100); */
-/* strcpy(buf[0], "FirstBuf\n"); */
-/* strcpy(buf[1], "SecondBuf\n"); */
-/* strcpy(buf[2], "ThirdBuffer\n"); */
-/* printf("HELLO"); */
-/* while(*buf != NULL){ */
-/*     printf("%s", *buf); */
-/*     buf++; */
-/* } */
+    /* char** buf; */
+    /* buf = malloc(4 * sizeof(char*)); */
+    /* buf[0] = malloc(100); */
+    /* buf[1] = malloc(100); */
+    /* buf[2] = malloc(100); */
+    /* strcpy(buf[0], "FirstBuf\n"); */
+    /* strcpy(buf[1], "SecondBuf\n"); */
+    /* strcpy(buf[2], "ThirdBuffer\n"); */
+    /* printf("HELLO"); */
+    /* while(*buf != NULL){ */
+    /*     printf("%s", *buf); */
+    /*     buf++; */
+    /* } */
 
 /* struct portfolio p = {}; */
 /* init_portfolio(&p, 10.00, "2021-04-16", 20); */
