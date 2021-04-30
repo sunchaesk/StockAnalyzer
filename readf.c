@@ -203,16 +203,16 @@ char** strsplit( const char* s, char delim ) {
     return _strsplit( s, &delim, NULL );
 }
 
-struct dfile to_dfile(char* fname){
+struct dfile* to_dfile(char* fname){
     char* buf;
     char** temp;
     buf = read_file(fname);
     temp = str_split(buf, '\n');
-    free(buf);
+//    free(buf);
     struct dfile d;
     d.file = temp;
-    free(temp);
-    return d;
+//    free(temp);
+    return &d;
 }
 
 struct data_file str_to_data(char** s){
@@ -246,9 +246,17 @@ struct data_file_array create_data(struct dfile* d){
         t = str_to_data(temp);
         ret.fdata[i] = t;
         clear_data_file(&t);
-
+        temp = 0;
         i++;
         d->file++;
     }
+    return ret;
+}
+
+struct data_file_array readf_main(char* fname){
+    struct dfile* d;
+    struct data_file_array ret;
+    d = to_dfile(fname);
+    ret = create_data(&d);
     return ret;
 }
