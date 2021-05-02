@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "data_list.c"
 
 // step 1
 // simply use printf("%s", c) to print contents of char*
@@ -71,10 +70,41 @@ char** split_file_newline(char* file_contents){
     ret = strsplit(file_contents, '\n');
     return ret;
 }
+char **strsplit_main(char* s){
+    char **ret = malloc(6 * sizeof(char*));
+    int i = 0;
+    char *piece = strtok(s, ";");
+    while(piece != NULL){
+        ret[i] = piece;
+        piece = strtok(NULL, ";");
+        i++;
+    }
+    return ret;
+}
+
+/* void tokenize(char* line) */
+/* { */
+/*    char* cmd = strtok(line," "); */
+
+/*    while (cmd != NULL) */
+/*    { */
+/*         printf ("%s\n",cmd); */
+/*         cmd = strtok(NULL, " "); */
+/*    } */
+/* } */
 
 //step 3
 // example string:
 // 2021-03-25;119.54000;121.66000;119.00000;120.59000;98844681
+struct data {
+    char *datetime;
+    long double open;
+    long double high;
+    long double low;
+    long double close;
+    long int volume;
+};
+typedef struct data data;
 void d_print_data(data d){
     printf("\n==StrToData Print Test==\n");
     printf("%s\n", d.datetime);
@@ -85,8 +115,13 @@ void d_print_data(data d){
     printf("%ld\n", d.volume);
     printf("======\n");
 }
+/* char buff[150]; */
+/* strcpy(buff, "2021-03-25;119.54000;121.66000;119.00000;120.59000;98844681"); */
+/* t_strsplit_main(buff); */
 data str_to_data(char* s){
-    char ** str_temp = strsplit(s, ';');
+    char buff[200];
+    strcpy(buff, s);
+    char ** str_temp = strsplit_main(buff);
     char * pEnd;
     data ret;
     ret.datetime = str_temp[0];
@@ -95,12 +130,6 @@ data str_to_data(char* s){
     ret.low = strtold(str_temp[3], &pEnd);
     ret.close = strtold(str_temp[4], &pEnd);
     ret.volume = strtol(str_temp[5], &pEnd, 10);
-    /* printf("%s\n", str_temp[0]); */
-    /* printf("%s\n", str_temp[1]); */
-    /* printf("%s\n", str_temp[2]); */
-    /* printf("%s\n", str_temp[3]); */
-    /* printf("%s\n", str_temp[4]); */
-    /* printf("%s\n", str_temp[5]); */
     return ret;
 }
 
@@ -112,17 +141,17 @@ data str_to_data(char* s){
 /*     contents++; */
 /* } */
 // The input is the file_contents separated by newline
-node_t propagate_data_list(char ** file_contents){
-    node_t * head = NULL;
-    head = (node_t *)malloc(sizeof(node_t));
-    if (head == NULL) return *head;
-    head->val = init_null_data();
-    head->next = NULL;
-
-    while(*file_contents != NULL){
-        data temp = str_to_data(*file_contents);
-        push_front(&head, temp);
-        file_contents++;
+struct data_list {
+    data val[5000];
+};
+typedef struct data_list data_list;
+void propagate_data(char **file_contents){
+    // data_list ret;
+    int i = 0;
+    while(file_contents[i] != NULL){
+        data temp_data = str_to_data(file_contents[i]);
+        d_print_data(temp_data);
+        i++;
     }
-    return *head;
+    // return ret;
 }
