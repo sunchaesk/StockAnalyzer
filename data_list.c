@@ -26,6 +26,16 @@ data init_data(char* date, long double open, long double high, long double low, 
     ret.volume = volume;
     return ret;
 }
+data init_null_data(){
+    data ret;
+    ret.datetime = NULL;
+    ret.open = 0;
+    ret.high = 0;
+    ret.low = 0;
+    ret.close = 0;
+    ret.volume = 0;
+    return ret;
+}
 
 typedef struct node {
     data val;

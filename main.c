@@ -52,21 +52,14 @@
 /* } */
 
 //datetime;open;high;low;close;volume
+    /* char * file = read_file("data/aapl.txt"); */
+    /* char ** contents = split_file(file); */
+    /* while (*contents != NULL){ */
+    /*     printf("%s\n", *contents); */
+    /*     contents++; */
+    /* } */
 int main() {
-    data t = init_data("2021-09-21", 123.3, 314.43, 34.14, 1.234, 1234);
-    printf("%s\n", t.datetime);
-
-    node_t * head = NULL;
-    head = (node_t *) malloc(sizeof(node_t));
-    if (head == NULL) {
-        return 1;
-    }
-
-    head->val = t;
-    head->next = NULL;
-    data t2 = init_data("2021-09-22", 12.34, 544,54, 5454.3, 988);
-    push_front(&head, t2);
-
-    printf("\n================\n");
-    print_list(head);
+    char * file = read_file("data/aapl.txt");
+    char ** contents = split_file_newline(file);
+    node_t t = propagate_data_list(contents);
 }
