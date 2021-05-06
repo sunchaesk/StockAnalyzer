@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 // #include "readf.c"
 #include "file_read.c"
@@ -75,10 +76,18 @@ void t_strsplit_main(char* s){
 }
 
 int main() {
+    // The problem curr:
+    // THe **contents is only like a single file
+    // contents[0] returns the whole file instead of the first line
+    // contents[1] return SEG FAULT
     char *file = read_file("data/aapl.txt");
+    int cnt = 0;
     char **contents = split_file_newline(file);
-    printf("%s\n", *contents);
-    /* data d = str_to_data(contents[0]); */
-    /* d_print_data(d); */
-    // d_print_data(temp_data);
+    printf("%s\n", contents[0]);
+
+    data_list d = propagate_data(contents);
+
+    /* char * s = "Hellllo\nNOWNEWLINE\nAnothernewline"; */
+    /* char ** ret = split_file_newline(s); */
+    /* printf("%s", ret[3]); */
 }

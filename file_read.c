@@ -66,9 +66,7 @@ char** strsplit( const char* s, char delim ) {
     return _strsplit( s, &delim, NULL );
 }
 char** split_file_newline(char* file_contents){
-    char ** ret;
-    ret = strsplit(file_contents, '\n');
-    return ret;
+    return strsplit(file_contents, '\n');
 }
 char **strsplit_main(char* s){
     char **ret = malloc(6 * sizeof(char*));
@@ -145,13 +143,16 @@ struct data_list {
     data val[5000];
 };
 typedef struct data_list data_list;
-void propagate_data(char **file_contents){
-    // data_list ret;
+data_list propagate_data(char **file_contents){
+    data_list ret;
     int i = 0;
     while(file_contents[i] != NULL){
         data temp_data = str_to_data(file_contents[i]);
+        ret.val[i] = temp_data;
         d_print_data(temp_data);
         i++;
     }
-    // return ret;
+    return ret;
 }
+// Goes out of scope (i goes over)
+// seg fault
