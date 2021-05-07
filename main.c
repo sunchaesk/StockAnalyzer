@@ -80,12 +80,11 @@ int main() {
     // THe **contents is only like a single file
     // contents[0] returns the whole file instead of the first line
     // contents[1] return SEG FAULT
-    char *file = read_file("data/aapl.txt");
-    int cnt = 0;
-    char **contents = split_file_newline(file);
-    printf("%s\n", contents[0]);
-
-    data_list d = propagate_data(contents);
+    /* char *file = read_file("data/aapl.txt"); */
+    /* char **contents = split_file_newline(file); */
+    // printf("%s\n", contents[0]);
+    data_list d = file_read_main("data/aapl.txt");
+    printf("\n===%d\n", d.len);
 
     /* char * s = "Hellllo\nNOWNEWLINE\nAnothernewline"; */
     /* char ** ret = split_file_newline(s); */

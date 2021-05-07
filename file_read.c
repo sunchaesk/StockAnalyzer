@@ -13,7 +13,7 @@
 
 // step 1
 // simply use printf("%s", c) to print contents of char*
-char* read_file(char* fname){
+char* read_file(const char* fname){
     FILE *f = fopen(fname, "rb");
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
@@ -103,14 +103,14 @@ struct data {
     long int volume;
 };
 typedef struct data data;
-void d_print_data(data d){
+void d_print_data(const data* d){
     printf("\n==StrToData Print Test==\n");
-    printf("%s\n", d.datetime);
-    printf("%Lg\n", d.open);
-    printf("%Lg\n", d.high);
-    printf("%Lg\n", d.low);
-    printf("%Lg\n", d.close);
-    printf("%ld\n", d.volume);
+    printf("%s\n", d->datetime);
+    printf("%Lg\n", d->open);
+    printf("%Lg\n", d->high);
+    printf("%Lg\n", d->low);
+    printf("%Lg\n", d->close);
+    printf("%ld\n", d->volume);
     printf("======\n");
 }
 /* char buff[150]; */
@@ -141,18 +141,33 @@ data str_to_data(char* s){
 // The input is the file_contents separated by newline
 struct data_list {
     data val[5000];
+    unsigned int len;
 };
 typedef struct data_list data_list;
 data_list propagate_data(char **file_contents){
     data_list ret;
     int i = 0;
-    while(file_contents[i] != NULL){
+    unsigned int cnt = 0;
+    while(file_contents[i+1] != NULL){
         data temp_data = str_to_data(file_contents[i]);
         ret.val[i] = temp_data;
-        d_print_data(temp_data);
+        d_print_data(&temp_data);
         i++;
+        cnt++;
     }
+    ret.len = cnt;
     return ret;
 }
 // Goes out of scope (i goes over)
 // seg fault
+
+///////////////////////////
+// MAIN FUNCTION LOOP /////
+///////////////////////////
+data_list file_read_main(const char * fname){
+    data_list ret;
+    char * file = read_file(fname);
+    char ** contents = split_file_newline(file);
+    ret = propagate_data(contents);
+    return ret;
+}
