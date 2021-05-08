@@ -3,10 +3,9 @@
 #include <assert.h>
 #include <string.h>
 
-// #include "readf.c"
-#include "file_read.c"
-#include "portfolio.c"
-#include "algo.c"
+// #include "file_read.c"
+// #include "portfolio.c"
+#include "donchian.c"
 
 
 /*     if (argc == 2){ */
@@ -59,21 +58,6 @@
 /*     printf("%s\n", *contents); */
 /*     contents++; */
 /* } */
-void t_strsplit_main(char* s){
-    char **ret = malloc(6 * sizeof(char*));
-    int i = 0;
-    char *piece = strtok(s, ";");
-    while(piece != NULL){
-        ret[i] = piece;
-        piece = strtok(NULL, ";");
-        i++;
-    }
-    while(*ret != NULL){
-        printf("%s\n", *ret);
-        ret++;
-    }
-
-}
 
 int main() {
     // The problem curr:
