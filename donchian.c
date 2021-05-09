@@ -43,6 +43,17 @@ donchian init_donchian(data_list d){
             initial_donchian.curr_max = curr_d.close;
         }
     }
+    initial_donchian.data_curr = d.val[DONCHIAN_RANGE];
+
+    return initial_donchian;
+}
+void d_print_donchian(donchian d){
+    printf("\n====Print Donchian=====\n");
+    printf("start: %d\n", d.start);
+    printf("end/curr: %d\n", d.end);
+    printf("curr_min: %Lg\n", d.curr_min);
+    printf("curr_max: %Lg\n", d.curr_max);
+    d_print_data(&d.data_curr);
 }
 
 

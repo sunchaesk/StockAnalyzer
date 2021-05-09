@@ -151,7 +151,7 @@ data_list propagate_data(char **file_contents){
     while(file_contents[i+1] != NULL){
         data temp_data = str_to_data(file_contents[i]);
         ret.val[i] = temp_data;
-        d_print_data(&temp_data);
+        // d_print_data(&temp_data);
         i++;
         cnt++;
     }

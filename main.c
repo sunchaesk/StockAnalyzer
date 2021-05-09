@@ -68,8 +68,8 @@ int main() {
     /* char **contents = split_file_newline(file); */
     // printf("%s\n", contents[0]);
     data_list d = file_read_main("data/aapl.txt");
-    printf("\n===%d\n", d.len);
-
+    donchian donc = init_donchian(d);
+    d_print_donchian(donc);
     /* char * s = "Hellllo\nNOWNEWLINE\nAnothernewline"; */
     /* char ** ret = split_file_newline(s); */
     /* printf("%s", ret[3]); */
