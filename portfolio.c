@@ -17,6 +17,7 @@ typedef struct portfolio {
 } portfolio;
 
 void portfolio_copy(struct portfolio* p, const struct portfolio* pf){
+
     p->curr_stock = pf->curr_stock;
     p->start_stock = pf->start_stock;
     p->stock_cnt = pf->stock_cnt;
@@ -92,7 +93,7 @@ void print_summary_sell(struct portfolio* p, char* date){
     printf("FINAL-STOCK-PRICE: %.3g\n", p->curr_stock);
     printf("PROFIT-PER: %.3Lg\n", ((p->current_portfolio / p->initial_portfolio) * 100)-100);
 }
-void print_summary(struct portfolio* p, char* date){
+void print_summary_portfolio(struct portfolio* p, char* date){
     printf("\n===============PORTFOLIO SUMMARY==============\n");
     printf("DATE-RANGE: %s -> %s\n", p->start_date, date);
     // print start data

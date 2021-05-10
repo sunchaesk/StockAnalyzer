@@ -60,13 +60,6 @@
 /* } */
 
 int main() {
-    // The problem curr:
-    // THe **contents is only like a single file
-    // contents[0] returns the whole file instead of the first line
-    // contents[1] return SEG FAULT
-    /* char *file = read_file("data/aapl.txt"); */
-    /* char **contents = split_file_newline(file); */
-    // printf("%s\n", contents[0]);
     data_list d = file_read_main("data/aapl.txt");
     donchian donc = init_donchian(d);
     d_print_donchian(donc);

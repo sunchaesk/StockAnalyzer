@@ -56,8 +56,32 @@ void d_print_donchian(donchian d){
     d_print_data(&d.data_curr);
 }
 
+void update_donchian(){
+
+}
+
+enum DECISION {BUY = 0, SELL = 1};
+enum DECISION make_decision_donchian(){
+    return BUY;
+}
+
+void stepper_donchian(){
+
+}
 
 //
-/* portfolio donchian_main(data_list d, long double init_portfolio){ */
+portfolio donchian_main(data_list d, long double init_portfolio_cash){
+    donchian don = init_donchian(d);
+    portfolio p;
+    data init = d.val[0];
+    init_portfolio(&p, init.close, init.datetime, init_portfolio_cash);
 
-/* } */
+    int i = 0;
+    while ((unsigned long)i < d.len - DONCHIAN_RANGE) {
+        // update_donchian();
+        // make_decision_donchian();
+        // stepper_donchian();
+    }
+    print_summary_portfolio(&p, d.val[d.len - 1].datetime);
+    return p;
+}
