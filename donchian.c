@@ -20,6 +20,7 @@ struct donchian {
     long double curr_max;
 
     data data_curr;
+    data_list dlist;
 };
 typedef struct donchian donchian;
 
@@ -53,11 +54,32 @@ void d_print_donchian(donchian d){
     printf("end/curr: %d\n", d.end);
     printf("curr_min: %Lg\n", d.curr_min);
     printf("curr_max: %Lg\n", d.curr_max);
-    d_print_data(&d.data_curr);
+//     d_print_data(&d.data_curr);
 }
 
-void update_donchian(){
+void update_donchian(donchian* don){
+    don->start++;
+    don->end++;
 
+    // for storing min and max vals when updating
+    long double temp = -1;
+    // find max;
+    for (int i = don->start; i < don->end; i++){
+        printf("%Lg||\n", don->dlist.val[i].close);
+        if (temp == -1 || don->dlist.val[i].close > temp){
+            temp = don->dlist.val[i].close;
+        }
+    }
+    don->curr_max = temp;
+    temp = -1;
+printf("\n============================HELLO\n");
+    for (int i = don->start; i < don->end; i++){
+        printf("%Lg||\n", don->dlist.val[i].close);
+        if (temp == -1 || don->dlist.val[i].close < temp){
+            temp = don->dlist.val[i].close;
+        }
+    }
+    don->curr_min = temp;
 }
 
 enum DECISION {BUY = 0, SELL = 1};
@@ -71,14 +93,15 @@ void stepper_donchian(){
 
 //
 portfolio donchian_main(data_list d, long double init_portfolio_cash){
-    donchian don = init_donchian(d);
+    // donchian don = init_donchian(d);
+    // don.dlist = d;
     portfolio p;
     data init = d.val[0];
     init_portfolio(&p, init.close, init.datetime, init_portfolio_cash);
 
     int i = 0;
     while ((unsigned long)i < d.len - DONCHIAN_RANGE) {
-        // update_donchian();
+        // update_donchian(&don);
         // make_decision_donchian();
         // stepper_donchian();
     }
