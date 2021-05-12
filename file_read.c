@@ -169,5 +169,8 @@ data_list file_read_main(const char * fname){
     char * file = read_file(fname);
     char ** contents = split_file_newline(file);
     ret = propagate_data(contents);
+    free(file); //
+    free(contents); //
+     // free(data); //
     return ret;
 }

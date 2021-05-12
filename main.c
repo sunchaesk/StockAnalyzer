@@ -12,7 +12,9 @@
 int main() {
     data_list d = file_read_main("data/aapl.txt");
     donchian donc = init_donchian(d);
-    d_print_donchian(donc);
-    update_donchian(&donc);
-    d_print_donchian(donc);
+    free(&d);
+    free(&donc);
+    // d_print_donchian(donc);
+     // update_donchian(&donc);
+    // d_print_donchian(donc);
 }
