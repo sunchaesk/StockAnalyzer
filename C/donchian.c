@@ -72,7 +72,7 @@ void update_donchian(donchian* don){
     }
     don->curr_max = temp;
     temp = -1;
-printf("\n============================HELLO\n");
+// printf("\n============================HELLO\n");
     for (int i = don->start; i < don->end; i++){
         printf("%Lg||\n", don->dlist.val[i].close);
         if (temp == -1 || don->dlist.val[i].close < temp){
