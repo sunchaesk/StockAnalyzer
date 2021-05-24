@@ -54,6 +54,32 @@
                (list-ref l 4)
                (list-ref l 5))))
 
+(define (readlines filename)
+  (call-with-input-file filename
+    (lambda (p)
+      (let loop ((line (read-line p))
+                 (result '()))
+        (if (eof-object? line)
+            (reverse result)
+            (loop (read-line p) (cons line result)))))))
+
+(define (file-to-data filename)
+  (map to-data (readlines filename)))
+
+
+(define test-l '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
+
+(define (frame-init l s)
+  (frame l s 1))
+
+(define (frame l s start)
+  (if (= start (- (length l) 2))
+      (display (slice l start s))
+      (begin
+        (display (slice l start s))
+        (frame l s (+ 1 start)))))
+
+
 ;; (define (read-file s)
 ;;   (call-with-input-file s
 ;;     (lambda (input-port)
@@ -64,3 +90,12 @@
 ;;               (display x)
 ;;               (loop (read-char input-port)
 ;;                     (string-append ret x))))))))
+
+;; (define (temp--read-file-line f lst)
+;;   (let* ((l (read-line f)))
+;;     (if (eof-object? l)
+;;         lst
+;;         (temp--read-file-line f (cons lst
+;;                                 (make-data l))))))
+
+;; (define )
