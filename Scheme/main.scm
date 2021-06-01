@@ -2,6 +2,7 @@
 (use-modules (ice-9 regex)
              (ice-9 rdelim))
 (include "utils.scm")
+(include "data_record.scm")
 
 (define (split-semi str)
   (map match:substring (list-matches "[^;]+" str)))
@@ -15,7 +16,7 @@
               (display x)
               (loop (read-char input-port))))))))
 
-(define (read-file filename)
+(define (__read-file filename)
   (call-with-input-file filename
     (lambda (p)
       (let loop ((line (read-line p))
@@ -23,37 +24,10 @@
         (if (eof-object? line)
             (reverse result)
             (loop (read-line p) (cons line result)))))))
+(define (read-file filename)
+  (reverse (__read-file filename)))
 
-;; 2021-03-12;234.00999;235.82001;233.23000;235.75000;22647900
-(define data  (make-record-type "data "'(datetime
-                                         open
-                                         high
-                                         low
-                                         close
-                                         volume)))
-(define make-data (record-constructor data '(datetime
-                                             open
-                                             high
-                                             low
-                                             close
-                                             volume)))
-(define get-data-datetime (record-accessor data 'datetime))
-(define get-data-open (record-accessor data 'open))
-(define get-data-high (record-accessor data 'high))
-(define get-data-low (record-accessor data 'low))
-(define get-data-close (record-accessor data 'close))
-(define get-data-volume (record-accessor data 'volume))
-
-;; 2021-03-12;234.00999;235.82001;233.23000;235.75000;22647900
-(define (to-data s)
-  (let ((l (split-semi s)))
-    (make-data (list-ref l 0)
-               (list-ref l 1)
-               (list-ref l 2)
-               (list-ref l 3)
-               (list-ref l 4)
-               (list-ref l 5))))
-
+;; file -> string of lines (each line 1 elem)
 (define (readlines filename)
   (call-with-input-file filename
     (lambda (p)
@@ -63,23 +37,40 @@
             (reverse result)
             (loop (read-line p) (cons line result)))))))
 
+;; file -> list of data
 (define (file-to-data filename)
   (map to-data (readlines filename)))
 
 
 (define test-l '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15))
 
-(define (frame-init l s)
-  (frame l s 1))
+(define (frame-init l len)
+  (frame l len 1))
 
-(define (frame l s start)
+(define (frame l len start)
   (if (= start (- (length l) 2))
-      (display (slice l start s))
+      (display (slice l start len))
       (begin
-        (display (slice l start s))
-        (frame l s (+ 1 start)))))
+        (display (slice l start len))
+        (frame l len (+ 1 start)))))
 
+;; list of string -> list of data
+(define (frame-to-data l)
+  (if (null? l)
+      '()
+      (cons (to-data (car l))
+            (frame-to-data (cdr l)))))
 
+;; almost basically the main loop
+(define (frame-data l len start)
+  (if (= start (length l))
+      (frame-to-data (slice l start len))
+      (begin
+        (frame-to-data (slice l start len))
+        (frame-data l len (+ 1 start)))))
+
+(define test-l2
+  (read-file "../data/msft.txt"))
 ;; (define (read-file s)
 ;;   (call-with-input-file s
 ;;     (lambda (input-port)
